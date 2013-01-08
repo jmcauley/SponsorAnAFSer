@@ -1,0 +1,88 @@
+﻿@model SponsorAnAFSer.Models.StudentWidget
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>StudentWidget</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Srn)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Srn)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ProgramRefCode)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ProgramRefCode)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.DestinationCountry)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.DestinationCountry)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.FundraisingAmount)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.FundraisingAmount)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.EndDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.EndDate)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.DisplayName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.DisplayName)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.BlogUrl)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.BlogUrl)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.EnbabledStatus)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.EnbabledStatus)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.AmountRaised)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.AmountRaised)
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}

@@ -1,0 +1,91 @@
+﻿@model IEnumerable<SponsorAnAFSer.Models.StudentWidget>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="row">
+			<div class="span3"></div>
+			<div class="span9">
+				<form class="form-search">
+					<div class="span2"><label>Widget Search: </label></div>
+				  
+				  	<input type="text" class="input-medium search-query">
+				  	<button type="submit" class="btn">Search</button>
+				</form>
+			</div>
+		</div>
+		<div class="row">
+			<div class="span3"></div>
+			<div class="span9">
+				
+				<form class="form-search">
+					<div class="span2"><label>Create Widget Form: </label></div>
+				  
+				  	<input type="text" class="input-medium search-query">
+				  	<button type="submit" class="btn">Create</button>
+				</form>
+			</div>
+		</div>
+		<div class="row">
+			<div class="span2">
+			</div>
+			<div class="span10">
+				<ul id="NavTab" class="nav nav-tabs">
+					<li class="active">
+						<a href="#activeWidgets" data-toggle="tab">Active</a>
+					</li>
+					<li>
+						<a href="#inactiveWidgets" data-toggle="tab">Inactive</a>
+					</li>
+				</ul>
+				<div id="NavTabContent" class="tab-content">
+					<div class="tab-pane fade in active" id="activeWidgets">
+		                <table class="table table-bordered table-striped table-hover">
+		                	<thead>
+		                		<tr>
+		                			<th>Name</th><th>State</th><th>Dest.</th><th>Prog. Code</th><th>Area Team</th><th>Amt. Raised</th><th>%Goal</th><th class="{sorter: false}"></th>
+		                		</tr>
+		                	</thead>
+		                    <tbody>
+		                        @foreach (var item in Model)
+		                        {
+		                            <tr>
+		                                <td>@Html.DisplayFor(modelItem => item.Name)</td>
+		                                <td>@Html.DisplayFor(modelItem => item.State)</td>
+		                                <td>@Html.DisplayFor(modelItem => item.DestinationCountry)</td>
+		                                <td>@Html.DisplayFor(modelItem => item.ProgramRefCode)</td>
+		                                <td>PDX</td>
+		                                <td>500</td>
+		                                <td>10%</td>
+                                        <td><a href="editwidget.html">View/Edit</a></td>
+		                            </tr>
+                                }
+		                    </tbody>
+		                </table>
+		            </div>
+		            <div class="tab-pane fade" id="inactiveWidgets">
+		                <table class="table table-bordered table-striped table-hover">
+		                	<thead>
+		                		<tr>
+		                			<th>Name</th><th>State</th><th>Dest.</th><th>Prog. Code</th><th>Area Team</th><th>Amt. Raised</th><th>%Goal</th><th class="{sorter: false}"></th>
+		                		</tr>
+		                	</thead>
+		                	<tbody>
+		                		<tr>
+		                			<td>Ed Townsend</td><td>OR</td><td>Germany</td><td>YPscNH12</td><td>PDX</td><td>500</td><td>10%</td><td>View/Edit</td>
+		                		</tr>
+		                		<tr>
+		                			<td>Logan Woodyard</td><td>AL</td><td>Argentina</td><td>SMscNH12</td><td>Auburn</td><td>500</td><td>10%</td><td>View/Edit</td>
+		                		</tr>
+		                		<tr>
+		                			<td>Sallyn Luhn</td><td>AL</td><td>Bolivia</td><td>SMscNH12</td><td>Auburn</td><td>350</td><td>8%</td><td>View/Edit</td>
+		                		</tr>
+		                	</tbody>
+		                </table>
+		            </div>
+				</div>
+			</div>
+			
+			
+		</div>
