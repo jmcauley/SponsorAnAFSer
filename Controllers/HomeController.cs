@@ -1,24 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+using System.Xml.Linq;
 using SponsorAnAFSer.Models;
+using SponsorAnAFSer.GlobalLinkWS;
 
 namespace SponsorAnAFSer.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly AdminContext db = new AdminContext();
+        private readonly AdminContext _db = new AdminContext();
 
         //
         // GET: /Home/
 
         public ActionResult Index()
         {
-            var widgets = db.StudentWidgets;
+            var widgets = _db.StudentWidgets;
             var enabledWidgets = from w in widgets
                                  select w;
 
@@ -30,7 +29,7 @@ namespace SponsorAnAFSer.Controllers
 
         public ActionResult Details(Guid id = default(Guid))
         {
-            StudentWidget studentwidget = db.StudentWidgets.Find(id);
+            StudentWidget studentwidget = _db.StudentWidgets.Find(id);
             if (studentwidget == null)
             {
                 return HttpNotFound();
@@ -39,12 +38,35 @@ namespace SponsorAnAFSer.Controllers
         }
 
         //
-        // GET: /Home/Create
-
-        public ActionResult Create()
+        // POST: /Home/Create
+        [HttpPost]
+        public ActionResult CreateFromServiceId(StudentWidget studentwidget)
         {
-            return View();
+            var widget = new StudentWidget();
+
+            using (var svc = new WebserviceFundAFSerSoapClient())
+            {
+                XElement studentAccount = svc.AFSWidgetGetProgramDetails("afserwidget2012", "white1Hallfl2oreappleCity",
+                                                                         studentwidget.ServiceId.ToString());
+
+
+                Guid serviceId;
+
+                bool isValidAcct = Guid.TryParse(studentAccount.Descendants("Service_ID").First().Value, out serviceId);
+                if (!isValidAcct)
+                {
+                    return HttpNotFound();
+                }
+                widget.ServiceId = Guid.Parse(studentAccount.Descendants("Service_ID").First().Value);
+                widget.FirstName = studentAccount.Descendants("First_Name").First().Value;
+                widget.LastName = studentAccount.Descendants("Last_Name").First().Value;
+                widget.State = studentAccount.Descendants("State").First().Value;
+                widget.ProgramRefCode = studentAccount.Descendants("Program_Code").First().Value;
+                widget.DestinationCountry = studentAccount.Descendants("Hosting_Country").First().Value;
+            }
+            return View(widget);
         }
+
 
         //
         // POST: /Home/Create
@@ -55,12 +77,12 @@ namespace SponsorAnAFSer.Controllers
             if (ModelState.IsValid)
             {
                 studentwidget.StudentWidgetId = Guid.NewGuid();
-                db.StudentWidgets.Add(studentwidget);
-                db.SaveChanges();
+                _db.StudentWidgets.Add(studentwidget);
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(studentwidget);
+            return RedirectToAction("Index");
         }
 
         //
@@ -68,11 +90,12 @@ namespace SponsorAnAFSer.Controllers
 
         public ActionResult Edit(Guid id = default(Guid))
         {
-            StudentWidget studentwidget = db.StudentWidgets.Find(id);
+            StudentWidget studentwidget = _db.StudentWidgets.Find(id);
             if (studentwidget == null)
             {
                 return HttpNotFound();
             }
+
             return View(studentwidget);
         }
 
@@ -82,12 +105,7 @@ namespace SponsorAnAFSer.Controllers
         [HttpPost]
         public ActionResult Edit(StudentWidget studentwidget)
         {
-            if (ModelState.IsValid)
-            {
-                db.Entry(studentwidget).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+            
             return View(studentwidget);
         }
 
@@ -96,7 +114,7 @@ namespace SponsorAnAFSer.Controllers
 
         public ActionResult Delete(Guid id = default(Guid))
         {
-            StudentWidget studentwidget = db.StudentWidgets.Find(id);
+            StudentWidget studentwidget = _db.StudentWidgets.Find(id);
             if (studentwidget == null)
             {
                 return HttpNotFound();
@@ -110,15 +128,15 @@ namespace SponsorAnAFSer.Controllers
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(Guid id)
         {
-            StudentWidget studentwidget = db.StudentWidgets.Find(id);
-            db.StudentWidgets.Remove(studentwidget);
-            db.SaveChanges();
+            StudentWidget studentwidget = _db.StudentWidgets.Find(id);
+            _db.StudentWidgets.Remove(studentwidget);
+            _db.SaveChanges();
             return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)
         {
-            db.Dispose();
+            _db.Dispose();
             base.Dispose(disposing);
         }
     }

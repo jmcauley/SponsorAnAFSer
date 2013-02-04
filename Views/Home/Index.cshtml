@@ -18,13 +18,12 @@
 		<div class="row">
 			<div class="span3"></div>
 			<div class="span9">
-				
-				<form class="form-search">
-					<div class="span2"><label>Create Widget Form: </label></div>
-				  
-				  	<input type="text" class="input-medium search-query">
-				  	<button type="submit" class="btn">Create</button>
-				</form>
+				@using (Html.BeginForm("CreateFromServiceId", "Home", FormMethod.Post, new { @class = "form-search" }))
+				{
+				    <div class="span2"><label>Create Widget Form: </label></div>
+				        <input id="serviceId " name="serviceId" type="text" class="input-medium search-query" /> 
+				        <button type="submit" name="create" class="btn">Create</button>
+                }
 			</div>
 		</div>
 		<div class="row">
@@ -48,17 +47,18 @@
 		                		</tr>
 		                	</thead>
 		                    <tbody>
-		                        @foreach (var item in Model)
+		                        @foreach (var item in Model.Where(m => m.EnabledStatus.Equals(1)))
 		                        {
+                                    var perc = decimal.Round((item.AmountRaised * 100 / item.FundraisingAmount));
 		                            <tr>
-		                                <td>@Html.DisplayFor(modelItem => item.Name)</td>
+		                                <td>@Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)</td>
 		                                <td>@Html.DisplayFor(modelItem => item.State)</td>
 		                                <td>@Html.DisplayFor(modelItem => item.DestinationCountry)</td>
 		                                <td>@Html.DisplayFor(modelItem => item.ProgramRefCode)</td>
 		                                <td>PDX</td>
-		                                <td>500</td>
-		                                <td>10%</td>
-                                        <td><a href="editwidget.html">View/Edit</a></td>
+		                                <td>@Html.DisplayFor(modelItem => item.AmountRaised)</td>
+		                                <td>@perc %</td>
+                                        <td>@Html.ActionLink("View/Edit", "Edit", new { id = item.StudentWidgetId })</td>
 		                            </tr>
                                 }
 		                    </tbody>
@@ -72,15 +72,20 @@
 		                		</tr>
 		                	</thead>
 		                	<tbody>
-		                		<tr>
-		                			<td>Ed Townsend</td><td>OR</td><td>Germany</td><td>YPscNH12</td><td>PDX</td><td>500</td><td>10%</td><td>View/Edit</td>
-		                		</tr>
-		                		<tr>
-		                			<td>Logan Woodyard</td><td>AL</td><td>Argentina</td><td>SMscNH12</td><td>Auburn</td><td>500</td><td>10%</td><td>View/Edit</td>
-		                		</tr>
-		                		<tr>
-		                			<td>Sallyn Luhn</td><td>AL</td><td>Bolivia</td><td>SMscNH12</td><td>Auburn</td><td>350</td><td>8%</td><td>View/Edit</td>
-		                		</tr>
+		                		@foreach (var item in Model.Where(m => m.EnabledStatus.Equals(0)))
+		                        {
+                                    var perc = decimal.Round((item.AmountRaised * 100 / item.FundraisingAmount));
+		                            <tr>
+		                                <td>@Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)</td>
+		                                <td>@Html.DisplayFor(modelItem => item.State)</td>
+		                                <td>@Html.DisplayFor(modelItem => item.DestinationCountry)</td>
+		                                <td>@Html.DisplayFor(modelItem => item.ProgramRefCode)</td>
+		                                <td>PDX</td>
+		                                <td>@Html.DisplayFor(modelItem => item.AmountRaised)</td>
+		                                <td>@perc %</td>
+                                        <td>@Html.ActionLink("View/Edit", "Edit", new { id = item.StudentWidgetId })</td>
+		                            </tr>
+                                }
 		                	</tbody>
 		                </table>
 		            </div>

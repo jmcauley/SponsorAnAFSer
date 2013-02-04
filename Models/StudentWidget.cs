@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -9,8 +8,11 @@ namespace SponsorAnAFSer.Models
     {
         [Key]
         public Guid StudentWidgetId { get; set; }
-        public string Name { get; set; }
+        public Guid ServiceId { get; set; }
         public string Srn { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string City { get; set; }
         public string State { get; set; }
         public string ProgramRefCode { get; set; }
         public string DestinationCountry { get; set; }
@@ -28,13 +30,15 @@ namespace SponsorAnAFSer.Models
     {
         [Key]
         public Guid DonationId { get; set; }
-        public string Name { get; set; }
+        public string TransactionId { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public string Address { get; set; }
         public string City { get; set; }
         public string State { get; set; }
-        public string Postal { get; set; }
+        public string Zip { get; set; }
         public string Email { get; set; }
         public decimal Amount { get; set; }
-        public DateTime DonationDate { get; set; }
+        public DateTime DateOfTransaction { get; set; }
     }
 }
