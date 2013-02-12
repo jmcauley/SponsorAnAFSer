@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data;
 using System.Linq;
 using System.Web.Mvc;
 using System.Xml.Linq;
@@ -21,6 +20,7 @@ namespace SponsorAnAFSer.Controllers
             var enabledWidgets = from w in widgets
                                  select w;
 
+            ViewBag.WSError = TempData["WSError"];
             return View(enabledWidgets.ToList());
         }
 
@@ -52,19 +52,27 @@ namespace SponsorAnAFSer.Controllers
 
                 Guid serviceId;
 
-                bool isValidAcct = Guid.TryParse(studentAccount.Descendants("Service_ID").First().Value, out serviceId);
-                if (!isValidAcct)
+                if (studentAccount.Descendants("GLMessage").First().Value.Equals("Success"))
                 {
-                    return HttpNotFound();
+                    bool isValidAcct = Guid.TryParse(studentAccount.Descendants("Service_ID").First().Value, out serviceId);
+                    if (!isValidAcct)
+                    {
+                        TempData["WSError"] = "Not a valid Service Id.";
+                        return RedirectToAction("Index");
+                    }
+                    widget.ServiceId = Guid.Parse(studentAccount.Descendants("Service_ID").First().Value);
+                    widget.FirstName = studentAccount.Descendants("First_Name").First().Value;
+                    widget.LastName = studentAccount.Descendants("Last_Name").First().Value;
+                    widget.State = studentAccount.Descendants("State").First().Value;
+                    widget.ProgramRefCode = studentAccount.Descendants("Program_Code").First().Value;
+                    widget.DestinationCountry = studentAccount.Descendants("Hosting_Country").First().Value;
+
+                    return View(widget);
                 }
-                widget.ServiceId = Guid.Parse(studentAccount.Descendants("Service_ID").First().Value);
-                widget.FirstName = studentAccount.Descendants("First_Name").First().Value;
-                widget.LastName = studentAccount.Descendants("Last_Name").First().Value;
-                widget.State = studentAccount.Descendants("State").First().Value;
-                widget.ProgramRefCode = studentAccount.Descendants("Program_Code").First().Value;
-                widget.DestinationCountry = studentAccount.Descendants("Hosting_Country").First().Value;
+                TempData["WSError"] = "Not a valid Service Id.";
+                return RedirectToAction("Index");
             }
-            return View(widget);
+            
         }
 
 
