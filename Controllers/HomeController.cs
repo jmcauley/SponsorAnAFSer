@@ -66,6 +66,10 @@ namespace SponsorAnAFSer.Controllers
                     widget.State = studentAccount.Descendants("State").First().Value;
                     widget.ProgramRefCode = studentAccount.Descendants("Program_Code").First().Value;
                     widget.DestinationCountry = studentAccount.Descendants("Hosting_Country").First().Value;
+                    widget.Srn = studentAccount.Descendants("Service_Ref").First().Value;
+                    widget.AreaTeam = studentAccount.Descendants("Area_Team_Name").First().Value;
+
+                    widget.EndDate = DateTime.Now.AddMonths(3).Date;
 
                     return View(widget);
                 }

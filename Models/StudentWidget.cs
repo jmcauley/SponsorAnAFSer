@@ -22,6 +22,7 @@ namespace SponsorAnAFSer.Models
         public string BlogUrl { get; set; }
         public int EnabledStatus { get; set; }
         public decimal AmountRaised { get; set; }
+        public string AreaTeam { get; set; }
 
         public virtual ICollection<Donation> Donations { get; set; }
     }

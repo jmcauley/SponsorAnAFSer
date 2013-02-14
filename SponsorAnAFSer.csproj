@@ -140,6 +140,10 @@
     <Compile Include="Migrations\201301122222218_SyncWithWSDefs.Designer.cs">
       <DependentUpon>201301122222218_SyncWithWSDefs.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201302140219383_AreaTeam.cs" />
+    <Compile Include="Migrations\201302140219383_AreaTeam.Designer.cs">
+      <DependentUpon>201302140219383_AreaTeam.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AdminContext.cs" />
     <Compile Include="Models\StudentWidget.cs" />
@@ -295,6 +299,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201301122222218_SyncWithWSDefs.resx">
       <DependentUpon>201301122222218_SyncWithWSDefs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201302140219383_AreaTeam.resx">
+      <DependentUpon>201302140219383_AreaTeam.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
