@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Linq;
 using System.Web.Mvc;
 using System.Xml.Linq;
@@ -68,8 +69,13 @@ namespace SponsorAnAFSer.Controllers
                     widget.DestinationCountry = studentAccount.Descendants("Hosting_Country").First().Value;
                     widget.Srn = studentAccount.Descendants("Service_Ref").First().Value;
                     widget.AreaTeam = studentAccount.Descendants("Area_Team_Name").First().Value;
+                    widget.State = studentAccount.Descendants("State").First().Value;
+                    widget.EnabledStatus = 1;
+                    widget.DisplayName = widget.FirstName + ' ' + widget.LastName;
 
+                    //This should be given to us by AFS
                     widget.EndDate = DateTime.Now.AddMonths(3).Date;
+                    widget.FundraisingAmount = 3000;
 
                     return View(widget);
                 }
@@ -90,6 +96,14 @@ namespace SponsorAnAFSer.Controllers
             {
                 studentwidget.StudentWidgetId = Guid.NewGuid();
                 _db.StudentWidgets.Add(studentwidget);
+                using (var svc = new WebserviceFundAFSerSoapClient())
+                {
+                    var reply = svc.AFSWidgetSetCode("afserwidget2012", "white1Hallfl2oreappleCity",
+                                         studentwidget.ServiceId.ToString(),
+                                         studentwidget.StudentWidgetId.ToString(),
+                                         studentwidget.StudentWidgetId.ToString(),
+                                         studentwidget.EndDate.ToString());
+                }
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -117,8 +131,31 @@ namespace SponsorAnAFSer.Controllers
         [HttpPost]
         public ActionResult Edit(StudentWidget studentwidget)
         {
-            
-            return View(studentwidget);
+            var widget = new StudentWidget();
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    widget = _db.StudentWidgets.Find(studentwidget.StudentWidgetId);
+                    widget.FundraisingAmount = studentwidget.FundraisingAmount;
+                    widget.EndDate = studentwidget.EndDate;
+                    widget.BlogUrl = studentwidget.BlogUrl;
+                    widget.DestinationCountry = studentwidget.DestinationCountry;
+                    widget.EnabledStatus = studentwidget.EnabledStatus;
+                    widget.DisplayName = studentwidget.DisplayName;
+
+                    _db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (DataException e)
+            {
+                Console.WriteLine(e);
+                //Log the error (add a variable name after DataException)
+                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
+                return View(widget);
+            }
+            return RedirectToAction("Index");
         }
 
         //

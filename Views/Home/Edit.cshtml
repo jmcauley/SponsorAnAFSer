@@ -8,58 +8,82 @@
 <div class="container">
 		<div class="row">
 			<div class="span3"></div>
-			<div class="span5">
-				<form action="#" class="form-horizontal">
-					<fieldset>
-						<legend>Widget: Marco Beard @Html.DisplayFor(m => m.FirstName) @Html.DisplayFor(m => m.LastName)</legend>
-						<div class="box">
-							<div>
-								<span class="span2">Name: </span><span>@Html.DisplayFor(m => m.FirstName) @Html.DisplayFor(m => m.LastName)</span>
-							</div>
-							<div>
-								<span class="span2">Service Ref. Number: </span><span>@Html.DisplayFor(m => m.ServiceId)</span>
-							</div>
-							<div>
-								<span class="span2">Program Code: </span><span>@Html.DisplayFor(m => m.ProgramRefCode)</span>
-							</div>
-						</div>
-						<div class="control-group">
-							<label class="control-label" for="destCountry">Dest. Country:</label> 
-							<div class="controls">
-								<input class="span2" id="destCountry" type="text" placeholder="Dest. Country" value="@Model.DestinationCountry"/>
-							</div>
-						</div>
-						<div class="control-group input-prepend">
-							<label class="control-label" for="fundraisingAmt">Fundraising Amt:</label> 
-							<div class="controls">
-								<span class="add-on">$</span><input class="span1" id="fundraisingAmt" type="text" placeholder="Amount" value="@Model.FundraisingAmount" />
-							</div>
-						</div>
-						<div class="control-group">
-							<label class="control-label" for="endDate">Widget End Date:</label> 
-							<div class="controls">
-								<input class="span2" id="endDate" type="text" placeholder="End Date" value="@Model.EndDate" />
-							</div>
-						</div>
-						<div class="control-group">
-							<label class="control-label" for="displayName">Display Name:</label> 
-							<div class="controls">
-								<input class="span2" id="displayName" type="text" placeholder="Display Name" value="@Model.DisplayName" />
-							</div>
-						</div>
-						<div class="control-group">
-							<label class="control-label" for="blogURL">Blog URL:</label> 
-							<div class="controls">
-								<input class="span3" id="blogURL" type="text" placeholder="Blog URL" value="@Model.BlogUrl" />
-							</div>
-						</div>
-						<div class="form-actions">
-						  <button type="submit" class="btn btn-primary">Save changes</button>
-						  <button type="button" class="btn">Cancel</button>
-						</div>
-					</fieldset>
-				</form>
-			</div>
+		    <div class="span5">
+		        @Html.ValidationSummary(true);
+		        <form name="editform" id="editform" action="/Home/Edit" class="form-horizontal" method="POST">
+		            <input type="hidden" name="StudentWidgetId" value="@Model.StudentWidgetId"/>
+		            <input type="hidden" name="ServiceId" value="@Model.ServiceId"/>
+		            <input type="hidden" name="FirstName" value="@Model.FirstName"/>
+		            <input type="hidden" name="LastName" value="@Model.LastName"/>
+		            <input type="hidden" name="Srn" value="@Model.Srn"/>
+		            <input type="hidden" name="ProgramRefCode" value="@Model.ProgramRefCode"/>
+		            <input type="hidden" name="AreaTeam" value="@Model.AreaTeam"/>
+		            <input type="hidden" name="State" value="@Model.State"/>
+		            <input type="hidden" name="City" value="@Model.City"/>
+		            <fieldset>
+		                <legend>Widget: Marco Beard @Html.DisplayFor(m => m.FirstName) @Html.DisplayFor(m => m.LastName)</legend>
+		                <div class="box">
+		                    <div>
+		                        <span class="span2">Name: </span><span>@Html.DisplayFor(m => m.FirstName) @Html.DisplayFor(m => m.LastName)</span>
+		                    </div>
+		                    <div>
+		                        <span class="span2">Service Ref. Number: </span><span>@Model.Srn</span>
+		                    </div>
+		                    <div>
+		                        <span class="span2">Program Code: </span><span>@Html.DisplayFor(m => m.ProgramRefCode)</span>
+		                    </div>
+		                </div>
+		                <div class="control-group">
+		                    <label class="control-label" for="destCountry">Dest. Country:</label> 
+		                    <div class="controls">
+		                        <input class="span2"  name="DestinationCountry" id="destCountry" type="text" placeholder="Dest. Country" value="@Model.DestinationCountry"/>
+		                    </div>
+		                </div>
+		                <div class="control-group input-prepend">
+		                    <label class="control-label" for="fundraisingAmt">Fundraising Amt:</label> 
+		                    <div class="controls">
+		                        <span class="add-on">$</span><input class="span1" name="FundraisingAmount" id="fundraisingAmt" type="text" placeholder="Amount" value="@Model.FundraisingAmount" />
+		                    </div>
+		                </div>
+		                <div class="control-group">
+		                    <label class="control-label" for="endDate">Widget End Date:</label> 
+		                    <div class="controls">
+		                        <input class="span2" name="EndDate" id="endDate" type="text" placeholder="End Date" value="@Model.EndDate" />
+		                    </div>
+		                </div>
+		                <div class="control-group">
+		                    <label class="control-label" for="displayName">Display Name:</label> 
+		                    <div class="controls">
+		                        <input class="span2" name="DisplayName" id="displayName" type="text" placeholder="Display Name" value="@Model.DisplayName" />
+		                    </div>
+		                </div>
+		                <div class="control-group">
+		                    <label class="control-label" for="blogURL">Blog URL:</label> 
+		                    <div class="controls">
+		                        <input class="span3" name="BlogUrl" id="blogURL" type="text" placeholder="Blog URL" value="@Model.BlogUrl" />
+		                    </div>
+		                </div>
+		                <div class="control-group">
+		                    <label class="radio inline control-label">
+		                        <div class="controls">
+		                            <input type="radio" name="EnabledStatus" id="EnabledStatus1" value="1" @(Model.EnabledStatus == 1?"checked='checked'":"")>
+		                            Enabled
+		                        </div>
+		                    </label>
+		                    <label class="radio inline control-label">
+		                        <div class="controls">
+		                            <input type="radio" name="EnabledStatus" id="EnabledStatus2" value="0" @(Model.EnabledStatus == 0?"checked='checked'":"")>
+		                            Disabled
+		                        </div>
+		                    </label>
+		                </div>
+		                <div class="form-actions">
+		                    <button type="submit" class="btn btn-primary">Save changes</button>
+		                    <button type="button" class="btn">Cancel</button>
+		                </div>
+		            </fieldset>
+		        </form>
+		    </div>
 		</div>
 		<div class="row">
 			<div class="span2">
@@ -89,12 +113,6 @@
 		            </div>
 			</div>	
 		</div>
-
-	  	<hr>
-
-		<footer>
-			<p>&copy; AFS USA</p>
-		</footer>
 	</div> <!-- /container -->
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
