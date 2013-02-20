@@ -78,8 +78,8 @@
 		                    </label>
 		                </div>
 		                <div class="form-actions">
-		                    <button type="submit" class="btn btn-primary">Save changes</button>
-		                    <button type="button" class="btn">Cancel</button>
+		                    <button type="submit" id="submit" class="btn btn-primary">Save changes</button>
+		                    <button type="button" id="cancel" class="btn">Cancel</button>
 		                </div>
 		            </fieldset>
 		        </form>
@@ -116,4 +116,13 @@
 	</div> <!-- /container -->
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(function () {
+            $("#cancel").click(
+                function () {
+                    window.location = "/Home";
+                }
+            );
+        });
+    </script>
 }
