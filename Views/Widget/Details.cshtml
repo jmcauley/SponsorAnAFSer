@@ -1,0 +1,30 @@
+﻿@model SponsorAnAFSer.Models.StudentWidget
+
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_XmlLayout.cshtml";
+}
+
+<div id="panel-header">
+     <strong>@Model.DisplayName</strong>
+</div>
+ <div id="panel-content">
+     <div id="panel-inner-content">
+        <div>
+                                             
+        <table style="float:left; margin-left: 10px;">   
+            <tr>
+                <td>
+                    <div id="panel-blurb">To help @Model.FirstName raise money to study abroad in @Model.DestinationCountry, click the Donate Now button below to make a non tax-deductible donation.</div>
+                </td>
+            </tr>                            
+        </table>
+        <div style="clear: both;"></div><br />
+        <div id="donateNow" style="margin: auto; text-align: center;">Donate Now!</div><br />
+    </div>
+    <div id="gauge" style="margin: auto; text-align: center; font-weight: bold;"></div><br />
+    <div style="margin: auto; text-align: center; font-weight: bold;">@String.Format("{0:c}",ViewBag.Donations) of @String.Format("{0:c}",Model.FundraisingAmount) raised!</div>
+    <div id="logo-holder"><img id="logo" src="~/assets/img/AFS_Logo-USA-tiny.png"></div>
+    </div>
+</div>
+
