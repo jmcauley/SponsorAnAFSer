@@ -101,7 +101,7 @@ namespace SponsorAnAFSer.Controllers
                     var reply = svc.AFSWidgetSetCode("afserwidget2012", "white1Hallfl2oreappleCity",
                                          studentwidget.ServiceId.ToString(),
                                          studentwidget.StudentWidgetId.ToString(),
-                                         studentwidget.StudentWidgetId.ToString(),
+                                         "http://38.96.129.221/SponsorAnAFSer_deploy/Widget/Details/" + studentwidget.StudentWidgetId.ToString(),
                                          studentwidget.EndDate.ToString());
                 }
                 _db.SaveChanges();
