@@ -586,7 +586,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\js\.DS_Store" />
-    <Content Include="Views\Home\Details.cshtml" />
     <Content Include="Views\Home\CreateFromServiceId.cshtml" />
     <Content Include="Views\Home\Edit.cshtml" />
     <Content Include="Views\Home\Delete.cshtml" />

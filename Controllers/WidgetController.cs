@@ -27,7 +27,8 @@ namespace SponsorAnAFSer.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Donations = studentwidget.Donations.Sum(d => d.Amount);
+            ViewBag.Donations = studentwidget.AmountRaised;
+            ViewBag.Percentage = (decimal)(studentwidget.AmountRaised / studentwidget.FundraisingAmount);
             return View(studentwidget);
         }
     }

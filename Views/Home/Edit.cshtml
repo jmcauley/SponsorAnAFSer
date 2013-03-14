@@ -10,7 +10,7 @@
 			<div class="span3"></div>
 		    <div class="span5">
 		        @Html.ValidationSummary(true);
-		        <form name="editform" id="editform" action="/Home/Edit" class="form-horizontal" method="POST">
+		        <form name="editform" id="editform" action="@Url.Action("Edit")" class="form-horizontal" method="POST">
 		            <input type="hidden" name="StudentWidgetId" value="@Model.StudentWidgetId"/>
 		            <input type="hidden" name="ServiceId" value="@Model.ServiceId"/>
 		            <input type="hidden" name="FirstName" value="@Model.FirstName"/>
@@ -21,7 +21,7 @@
 		            <input type="hidden" name="State" value="@Model.State"/>
 		            <input type="hidden" name="City" value="@Model.City"/>
 		            <fieldset>
-		                <legend>Widget: Marco Beard @Html.DisplayFor(m => m.FirstName) @Html.DisplayFor(m => m.LastName)</legend>
+		                <legend>Widget: @Html.DisplayFor(m => m.FirstName) @Html.DisplayFor(m => m.LastName)</legend>
 		                <div class="box">
 		                    <div>
 		                        <span class="span2">Name: </span><span>@Html.DisplayFor(m => m.FirstName) @Html.DisplayFor(m => m.LastName)</span>
@@ -48,7 +48,7 @@
 		                <div class="control-group">
 		                    <label class="control-label" for="endDate">Widget End Date:</label> 
 		                    <div class="controls">
-		                        <input class="span2" name="EndDate" id="endDate" type="text" placeholder="End Date" value="@Model.EndDate" />
+		                        <input class="span2" name="EndDate" id="endDate" type="text" placeholder="End Date" value="@Model.EndDate.ToShortDateString()" />
 		                    </div>
 		                </div>
 		                <div class="control-group">

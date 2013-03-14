@@ -1,4 +1,5 @@
 ﻿@model SponsorAnAFSer.Models.StudentWidget
+@{ string currHost = "http://38.96.129.221";}
 @{ string currUrl = "http://38.96.129.221/SponsorAnAFSer_deploy";}
 @{
     ViewBag.Title = "Detail";
@@ -20,7 +21,7 @@
             </tr>                            
         </table>
         <div style="clear: both;"></div><br />
-        <div id="donateNow" style="margin: auto; text-align: center;">Donate Now!</div><br />
+            <div id="donateNow" style="margin: auto; text-align: center;"><a href="@currHost/donations/main/index?widgetId=@Model.StudentWidgetId" target="_blank">Donate Now!</a></div><br />
     </div>
     <div id="gauge" style="margin: auto; text-align: center; font-weight: bold;"></div><br />
     <div style="margin: auto; text-align: center; font-weight: bold;">@String.Format("{0:c}",ViewBag.Donations) of @String.Format("{0:c}",Model.FundraisingAmount) raised!</div>
@@ -28,3 +29,40 @@
     </div>
 </div>
 
+@section Scripts {
+    <script type="text/javascript">
+
+        function initGadget() {
+
+            google.setOnLoadCallback(function () {
+                $(document).ready(function () {
+                    var theme = "energyblue",
+                            majorTicks = { size: '10%', interval: 10 },
+                            minorTicks = { size: '5%', interval: 2.5, style: { 'stroke-width': 1, stroke: '#aaaaaa'} },
+                            labels = { interval: 20, position: 'far', visible: false };
+                    $('#gauge').jqxLinearGauge({
+                        orientation: 'horizontal',
+                        height: '40px',
+                        width: '160px',
+                        labels: labels,
+                        ticksMajor: majorTicks,
+                        ticksMinor: minorTicks,
+                        ticksPosition: 'far',
+                        max: 100,
+                        min: 0,
+                        value: @ViewBag.Percentage,
+                        pointer: { size: '6%' },
+                        colorScheme: 'scheme05',
+                        theme: theme
+                    });
+
+                    $('#donateNow').jqxButton({ width: 85, theme: theme });
+
+                });
+            });
+
+        }
+
+        gadgets.util.registerOnLoadHandler(initGadget);
+        </script>
+}

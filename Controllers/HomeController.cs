@@ -25,18 +25,7 @@ namespace SponsorAnAFSer.Controllers
             return View(enabledWidgets.ToList());
         }
 
-        //
-        // GET: /Home/Details/5
-
-        public ActionResult Details(Guid id = default(Guid))
-        {
-            StudentWidget studentwidget = _db.StudentWidgets.Find(id);
-            if (studentwidget == null)
-            {
-                return HttpNotFound();
-            }
-            return View(studentwidget);
-        }
+        
 
         //
         // POST: /Home/Create
@@ -72,10 +61,8 @@ namespace SponsorAnAFSer.Controllers
                     widget.State = studentAccount.Descendants("State").First().Value;
                     widget.EnabledStatus = 1;
                     widget.DisplayName = widget.FirstName + ' ' + widget.LastName;
-
-                    //This should be given to us by AFS
-                    widget.EndDate = DateTime.Now.AddMonths(3).Date;
-                    widget.FundraisingAmount = 3000;
+                    widget.EndDate = DateTime.Parse(studentAccount.Descendants("Widget_End_Date").First().Value);
+                    widget.FundraisingAmount = decimal.Parse(studentAccount.Descendants("Widget_Amount").First().Value);
 
                     return View(widget);
                 }
@@ -143,6 +130,7 @@ namespace SponsorAnAFSer.Controllers
                     widget.DestinationCountry = studentwidget.DestinationCountry;
                     widget.EnabledStatus = studentwidget.EnabledStatus;
                     widget.DisplayName = studentwidget.DisplayName;
+                    
 
                     _db.SaveChanges();
                     return RedirectToAction("Index");
