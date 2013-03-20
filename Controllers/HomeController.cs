@@ -25,7 +25,6 @@ namespace SponsorAnAFSer.Controllers
             return View(enabledWidgets.ToList());
         }
 
-        
 
         //
         // POST: /Home/Create
@@ -34,42 +33,50 @@ namespace SponsorAnAFSer.Controllers
         {
             var widget = new StudentWidget();
 
-            using (var svc = new WebserviceFundAFSerSoapClient())
-            {
-                XElement studentAccount = svc.AFSWidgetGetProgramDetails("afserwidget2012", "white1Hallfl2oreappleCity",
-                                                                         studentwidget.ServiceId.ToString());
-
-
-                Guid serviceId;
-
-                if (studentAccount.Descendants("GLMessage").First().Value.Equals("Success"))
+            try{
+                using (var svc = new WebserviceFundAFSerSoapClient())
                 {
-                    bool isValidAcct = Guid.TryParse(studentAccount.Descendants("Service_ID").First().Value, out serviceId);
-                    if (!isValidAcct)
-                    {
-                        TempData["WSError"] = "Not a valid Service Id.";
-                        return RedirectToAction("Index");
-                    }
-                    widget.ServiceId = Guid.Parse(studentAccount.Descendants("Service_ID").First().Value);
-                    widget.FirstName = studentAccount.Descendants("First_Name").First().Value;
-                    widget.LastName = studentAccount.Descendants("Last_Name").First().Value;
-                    widget.State = studentAccount.Descendants("State").First().Value;
-                    widget.ProgramRefCode = studentAccount.Descendants("Program_Code").First().Value;
-                    widget.DestinationCountry = studentAccount.Descendants("Hosting_Country").First().Value;
-                    widget.Srn = studentAccount.Descendants("Service_Ref").First().Value;
-                    widget.AreaTeam = studentAccount.Descendants("Area_Team_Name").First().Value;
-                    widget.State = studentAccount.Descendants("State").First().Value;
-                    widget.EnabledStatus = 1;
-                    widget.DisplayName = widget.FirstName + ' ' + widget.LastName;
-                    widget.EndDate = DateTime.Parse(studentAccount.Descendants("Widget_End_Date").First().Value);
-                    widget.FundraisingAmount = decimal.Parse(studentAccount.Descendants("Widget_Amount").First().Value);
+                    XElement studentAccount = svc.AFSWidgetGetProgramDetails("afserwidget2012", "white1Hallfl2oreappleCity",
+                                                                             studentwidget.ServiceId.ToString());
 
-                    return View(widget);
+
+                    Guid serviceId;
+                    DateTime endDate;
+
+                    if (studentAccount.Descendants("GLMessage").First().Value.Equals("Success"))
+                    {
+                        bool isValidAcct = Guid.TryParse(studentAccount.Descendants("Service_ID").First().Value, out serviceId);
+                        if (!isValidAcct)
+                        {
+                            TempData["WSError"] = "Not a valid Service Id.";
+                            return RedirectToAction("Index");
+                        }
+                        widget.ServiceId = Guid.Parse(studentAccount.Descendants("Service_ID").First().Value);
+                        widget.FirstName = studentAccount.Descendants("First_Name").First().Value;
+                        widget.LastName = studentAccount.Descendants("Last_Name").First().Value;
+                        widget.State = studentAccount.Descendants("State").First().Value;
+                        widget.ProgramRefCode = studentAccount.Descendants("Program_Code").First().Value;
+                        widget.DestinationCountry = studentAccount.Descendants("Hosting_Country").First().Value;
+                        widget.Srn = studentAccount.Descendants("Service_Ref").First().Value;
+                        widget.AreaTeam = studentAccount.Descendants("Area_Team_Name").First().Value;
+                        widget.State = studentAccount.Descendants("State").First().Value;
+                        widget.EnabledStatus = 1;
+                        widget.DisplayName = widget.FirstName + ' ' + widget.LastName;
+                        widget.EndDate = DateTime.TryParse(studentAccount.Descendants("Widget_End_Date").First().Value, out endDate) ? endDate : DateTime.Now.AddMonths(3);
+                        widget.FundraisingAmount = decimal.Parse(studentAccount.Descendants("Widget_Amount").First().Value);
+
+                        return View(widget);
+                    }
+                    //If we get here and didn't hit the View or an Error, then it is a bad Id.
+                    
                 }
-                TempData["WSError"] = "Not a valid Service Id.";
-                return RedirectToAction("Index");
             }
-            
+            catch(Exception e)
+            {
+                TempData["WSError"] = "Error in Global Link response: " + e.Message;
+            }
+
+            return RedirectToAction("Index");
         }
 
 

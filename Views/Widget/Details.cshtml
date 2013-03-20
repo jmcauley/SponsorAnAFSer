@@ -21,11 +21,11 @@
             </tr>                            
         </table>
         <div style="clear: both;"></div><br />
-            <div id="donateNow" style="margin: auto; text-align: center;"><a href="@currHost/donations/main/index?widgetId=@Model.StudentWidgetId" target="_blank">Donate Now!</a></div><br />
+            <div id="donateNow" style="margin: auto; text-align: center;"><a href="@currHost/donations/main/index?widgetId=@Model.StudentWidgetId" target="_blank">DONATE NOW!</a></div><br />
     </div>
     <div id="gauge" style="margin: auto; text-align: center; font-weight: bold;"></div><br />
     <div style="margin: auto; text-align: center; font-weight: bold;">@String.Format("{0:c}",ViewBag.Donations) of @String.Format("{0:c}",Model.FundraisingAmount) raised!</div>
-    <div id="logo-holder"><img id="logo" src="@currUrl/assets/img/AFS_Logo-USA-tiny.png"></div>
+    <div id="logo-holder"><img id="logo" src="@currUrl/assets/img/afsusalogo_small.png"></div>
     </div>
 </div>
 
@@ -56,7 +56,7 @@
                         theme: theme
                     });
 
-                    $('#donateNow').jqxButton({ width: 85, theme: theme });
+                    $('#donateNow').jqxButton({ width: 95, theme: theme });
 
                 });
             });
