@@ -2,6 +2,7 @@
 using System.Data;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.Routing;
 using System.Xml.Linq;
 using SponsorAnAFSer.Models;
 using SponsorAnAFSer.GlobalLinkWS;
@@ -151,6 +152,29 @@ namespace SponsorAnAFSer.Controllers
                 return View(widget);
             }
             return RedirectToAction("Index");
+        }
+
+        //
+        // POST: /Search
+        [HttpPost]
+        public ActionResult Search(FormCollection formCollection)
+        {
+            var search = formCollection["searchBox"];
+            //Search by service id if it is a guid, otherwise search by last name
+            var serviceId = Guid.Empty;
+            if (Guid.TryParse(search, out serviceId))
+            {
+                var widget = _db.StudentWidgets.FirstOrDefault(w => w.ServiceId == serviceId);
+                if (widget != null)
+                {
+                    var routeDict = new RouteValueDictionary {{"id", widget.StudentWidgetId}};
+                    return RedirectToAction("Edit",routeDict);
+                }
+            }
+
+            var widgets = _db.StudentWidgets.Where(w => w.LastName == search);
+
+            return View(widgets);
         }
 
         //

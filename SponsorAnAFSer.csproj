@@ -575,6 +575,7 @@
     <Content Include="Views\Shared\_XmlLayout.cshtml" />
     <Content Include="Views\Widget\Index.cshtml" />
     <Content Include="Views\Widget\Details.cshtml" />
+    <Content Include="Views\Home\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
