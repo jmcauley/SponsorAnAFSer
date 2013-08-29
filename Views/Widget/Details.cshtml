@@ -1,6 +1,6 @@
 ﻿@model SponsorAnAFSer.Models.StudentWidget
-@{ string currHost = "http://38.96.129.221";}
-@{ string currUrl = "http://38.96.129.221/SponsorAnAFSer_deploy";}
+@{ string currHost = "https://donatew.afsusa.org/donation/";}
+@{ string currUrl = "http://donatew.afsusa.org/SponsorAnAFSer/";}
 @{
     ViewBag.Title = "Detail";
     Layout = "~/Views/Shared/_XmlLayout.cshtml";
@@ -21,10 +21,19 @@
             </tr>                            
         </table>
         <div style="clear: both;"></div><br />
-            <div id="donateNow" style="margin: auto; text-align: center;"><a href="@currHost/donations/main/index?widgetId=@Model.StudentWidgetId" target="_blank">DONATE NOW!</a></div><br />
+            <div id="donateNow" style="margin: auto; text-align: center;">
+                @if (@Model.EnabledStatus == 1)
+                {
+                    <a href="@currHost/main/index?widgetId=@Model.StudentWidgetId" target="_blank">DONATE NOW!</a>
+                }
+                else
+                {
+                    <span>DONATIONS CLOSED</span>
+                }
+            </div><br />
     </div>
     <div id="gauge" style="margin: auto; text-align: center; font-weight: bold;"></div><br />
-    <div style="margin: auto; text-align: center; font-weight: bold;">@String.Format("{0:c}",ViewBag.Donations) of @String.Format("{0:c}",Model.FundraisingAmount) raised!</div>
+    <div style="margin: auto; text-align: center; font-weight: bold;">@String.Format("{0:c}", ViewBag.Donations) of @String.Format("{0:c}", Model.FundraisingAmount) raised!</div>
     <div id="logo-holder"><img id="logo" src="@currUrl/assets/img/afsusalogo_small.png"></div>
     </div>
 </div>
