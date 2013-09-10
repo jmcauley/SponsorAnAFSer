@@ -98,7 +98,7 @@
 		                		</tr>
 		                	</thead>
 		                	<tbody>
-		                		@foreach (Donation donation in Model.Donations)
+		                		@foreach (Donation donation in Model.Donations.OrderBy(d => d.DateOfTransaction))
 				                {
 				                    <tr>
 				                        <td>@donation.FirstName @donation.LastName</td><td>@donation.Address @donation.City @donation.State</td><td>@donation.Email</td><td>@donation.Amount</td><td>@donation.DateOfTransaction</td>
@@ -123,6 +123,10 @@
                     window.location = "@Url.Action("Index")";
                 }
             );
+        });
+        
+        $(document).ready(function () {
+            $(".table").tablesorter();
         });
     </script>
 }
